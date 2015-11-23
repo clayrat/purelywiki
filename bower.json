@@ -1,0 +1,26 @@
+{
+  "name": "purelywiki",
+  "version": "0.0.1",
+  "moduleType": [
+    "node"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "output"
+  ],
+  "dependencies": {
+    "purescript-console": "^0.1.0",
+    "purescript-optic-ui": "*",
+    "purescript-datetime": "~0.9.1",
+    "asciidoctor.js": "~1.5.2",
+    "pure": "~0.6.0",
+    "font-awesome": "fontawesome#~4.5.0",
+    "purescript-maps": "~0.5.3",
+    "purescript-sequences": "~0.4.2",
+    "purescript-sets": "~0.5.3",
+    "purescript-lists": "~0.7.7",
+    "purescript-tuples": "~0.4.0"
+  }
+}
