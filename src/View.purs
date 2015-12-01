@@ -1,16 +1,17 @@
 module View where
 
 
+import           AsciiDoc (unsafeConvertToNode)
 import           DOM
 import           Data.Array as AR
 import           Data.Foldable (mconcat)
 import           Data.Lens (Lens (..), lens, (^.))
-import           Data.Maybe (maybe, maybe', fromMaybe)
 import qualified Data.Map as M
+import           Data.Maybe (maybe, maybe', fromMaybe)
 import           Data.Monoid (mempty)
 import           Model
 import           OpticUI
-import           OpticUI.Markup (attr)
+import qualified OpticUI.Markup as OM
 import qualified OpticUI.Markup.HTML as H
 import           Prelude
 
@@ -20,11 +21,11 @@ view = mconcat [header, main']
 
 header = with $ \s h ->
   ui $ H.header [H.classA "home-menu pure-menu pure-menu-horizontal"] $ mconcat
-  [ H.a [H.classA "pure-menu-heading", attr "href" "/"] $
+  [ H.a [H.classA "pure-menu-heading", OM.attr "href" "/"] $
     mconcat [text s.title, H.span [] $ text s.subtitle]
   , H.ul [H.classA "pure-menu-list"] $
     H.li [H.classA "pure-menu-item"] $
-    H.a [H.classA "pure-menu-link", attr "href" "#"] $ text $ s ^. username
+    H.a [H.classA "pure-menu-link", OM.attr "href" "#"] $ text $ s ^. username
   ]
 
 
@@ -42,7 +43,8 @@ main' = with $ \s h ->
 
 
 article = with $ \s h ->
-  ui $ mconcat [H.h3 [] $ text $ s ^. title, H.div [] $ text $ s ^. content]
+  ui $ mconcat [ H.h3 [] $ text $ s ^. title
+               , H.div [OM.initializer (s ^. title) (unsafeConvertToNode $ s ^. content)] mempty] -- $ text $ convert $ s ^. content]
 
 
 pureG = H.div [H.classA "pure-g"]

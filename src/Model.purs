@@ -72,7 +72,7 @@ state =
       [ { created: Nothing
         , updated: Nothing
         , title: Title "Tiddly The Only One"
-        , content: WikiText "We need a markup language."
+        , content: WikiText "We need a *markup* language."
         , tags: S.empty
         , author: User "d(^_^)b"
         }

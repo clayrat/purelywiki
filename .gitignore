@@ -6,3 +6,4 @@
 /.browserify-cache.json
 /app.js
 /.pulp-cache
+.tern-port
