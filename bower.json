@@ -21,6 +21,7 @@
     "purescript-sequences": "~0.4.2",
     "purescript-sets": "~0.5.3",
     "purescript-lists": "~0.7.7",
-    "purescript-tuples": "~0.4.0"
+    "purescript-tuples": "~0.4.0",
+    "purescript-aff": "~0.13.1"
   }
 }

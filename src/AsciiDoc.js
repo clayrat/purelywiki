@@ -8,10 +8,20 @@ exports.convert = function (content) {
     return html;
 };
 
-exports.unsafeConvertToNode = function (content) {
+exports.mkViewer = function (content) {
     return function (node) {
         return function () {
             node.innerHTML = exports.convert(content);
-        }
+        };
+    };
+};
+
+exports.mkEditor = function (content) {
+    return function (node) {
+        return function () {
+            var editor = ace.edit(node);
+            editor.session.setMode("ace/mode/asciidoc");
+            editor.setValue(content);
+        };
     };
 };

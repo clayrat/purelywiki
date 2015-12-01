@@ -30,6 +30,14 @@ instance ordTitle :: Ord Title where
 type Tag = Title
 
 
+data Mode = View | Edit
+
+instance eqMode :: Eq Mode where
+  eq View View = true
+  eq Edit Edit = true
+  eq _ _ = false
+
+
 type Article =
   { created :: Maybe Date
   , updated :: Maybe Date
@@ -37,6 +45,8 @@ type Article =
   , content :: WikiText
   , tags :: S.Set Tag
   , author :: User
+  , mode :: Mode
+  , revision :: Int
   }
 
 
@@ -63,6 +73,8 @@ emptyArticle =
   , content: WikiText ""
   , tags: S.empty
   , author: User "d(^_^)b"
+  , mode: View
+  , revision: 0
   }
 
 
@@ -75,6 +87,8 @@ state =
         , content: WikiText "We need a *markup* language."
         , tags: S.empty
         , author: User "d(^_^)b"
+        , mode: View
+        , revision: 0
         }
       ]
   , user: User "d(^_^)b"
@@ -92,3 +106,4 @@ username = user <<< lens (\(User u) -> u) (\(User u) v -> User v)
 articles = lens _.articles (_ { articles = _ })
 title = lens (\{ title: (Title x) } -> x) (\a x -> a { title = (Title x) })
 content = lens (\{ content: (WikiText x) } -> x) (\a x -> a { content = (WikiText x) })
+mode = lens _.mode (_ { mode = _ })

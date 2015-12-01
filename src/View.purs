@@ -1,7 +1,8 @@
 module View where
 
 
-import           AsciiDoc (unsafeConvertToNode)
+import           AsciiDoc (mkEditor, mkViewer)
+import           Control.Monad.Aff
 import           DOM
 import           Data.Array as AR
 import           Data.Foldable (mconcat)
@@ -11,7 +12,7 @@ import           Data.Maybe (maybe, maybe', fromMaybe)
 import           Data.Monoid (mempty)
 import           Model
 import           OpticUI
-import qualified OpticUI.Markup as OM
+import           OpticUI.Markup (attr)
 import qualified OpticUI.Markup.HTML as H
 import           Prelude
 
@@ -21,11 +22,11 @@ view = mconcat [header, main']
 
 header = with $ \s h ->
   ui $ H.header [H.classA "home-menu pure-menu pure-menu-horizontal"] $ mconcat
-  [ H.a [H.classA "pure-menu-heading", OM.attr "href" "/"] $
+  [ H.a [H.classA "pure-menu-heading", attr "href" "/"] $
     mconcat [text s.title, H.span [] $ text s.subtitle]
   , H.ul [H.classA "pure-menu-list"] $
     H.li [H.classA "pure-menu-item"] $
-    H.a [H.classA "pure-menu-link", OM.attr "href" "#"] $ text $ s ^. username
+    H.a [H.classA "pure-menu-link", attr "href" "#"] $ text $ s ^. username
   ]
 
 
@@ -43,8 +44,14 @@ main' = with $ \s h ->
 
 
 article = with $ \s h ->
-  ui $ mconcat [ H.h3 [] $ text $ s ^. title
-               , H.div [OM.initializer (s ^. title) (unsafeConvertToNode $ s ^. content)] mempty] -- $ text $ convert $ s ^. content]
+  let toggleMode = const $ runHandler h $ s {mode = if (s ^. mode == View) then Edit else View}
+  in ui $ mconcat
+  [ H.h3 [] $ text $ s ^. title
+  , if (s ^. mode == View)
+    then H.div [H.onInitialized "viewer" (mkViewer $ s ^. content)] mempty
+    else H.pre [H.onInitialized "editor" (mkEditor $ s ^. content), attr "style" "height:10em;font-size:14px;"] $ mempty
+  , H.button [H.classA "pure-button", H.onClick toggleMode] $ H.i [H.classA "fa fa-pencil"] mempty
+  ]
 
 
 pureG = H.div [H.classA "pure-g"]

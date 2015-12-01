@@ -11,7 +11,7 @@
 ## Prose
 
 ```sh
-$ git clone https://github.com/ul/purelywiki
+$ git clone --recursive https://github.com/ul/purelywiki
 $ cd purelywiki
 $ npm install
 $ pulp dep install

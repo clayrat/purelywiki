@@ -6,4 +6,5 @@ import Prelude
 
 
 foreign import convert :: String -> String
-foreign import unsafeConvertToNode :: forall eff. String -> HTMLElement -> Eff eff Unit
+foreign import mkViewer :: forall eff. String -> HTMLElement -> Eff eff Unit
+foreign import mkEditor :: forall eff. String -> HTMLElement -> Eff eff Unit
