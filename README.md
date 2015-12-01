@@ -2,9 +2,11 @@
 
 ## Haiku
 
-Purely wiki
-TiddlyWiki-inspired
-Written in Purescript
+> Purely wiki
+>
+> TiddlyWiki-inspired
+>
+> Written in Purescript
 
 ## Prose
 
