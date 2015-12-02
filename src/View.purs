@@ -48,8 +48,8 @@ article = with $ \s h ->
   in ui $ mconcat
   [ H.h3 [] $ text $ s ^. title
   , if (s ^. mode == View)
-    then H.div [H.onInitialized "viewer" (mkViewer $ s ^. content)] mempty
-    else H.pre [H.onInitialized "editor" (mkEditor $ s ^. content), attr "style" "height:10em;font-size:14px;"] $ mempty
+    then H.div [H.onInitialized ("viewer" ++ s ^. title ++ s ^. content) (mkViewer $ s ^. content)] mempty
+    else H.pre [H.onInitialized ("editor" ++ s ^. title ++ s ^. content) (mkEditor $ s ^. content), attr "style" "height:10em;font-size:14px;"] $ mempty
   , H.button [H.classA "pure-button", H.onClick toggleMode] $ H.i [H.classA "fa fa-pencil"] mempty
   ]
 
