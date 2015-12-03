@@ -3,6 +3,7 @@ module Model where
 
 import Prelude
 import Data.Date (Date (..))
+import Data.Generic
 import Data.Lens (lens, Lens (..))
 import Data.Maybe (Maybe (..))
 import Data.Foldable (foldMap, Foldable)
@@ -20,11 +21,11 @@ newtype WikiText = WikiText String
 
 newtype Title = Title String
 
+derive instance genericTitle :: Generic Title
 instance eqTitle :: Eq Title where
-  eq (Title a) (Title b) = eq a b
-
+  eq = gEq
 instance ordTitle :: Ord Title where
-  compare (Title a) (Title b) = compare a b
+  compare = gCompare
 
 
 type Tag = Title
@@ -32,11 +33,9 @@ type Tag = Title
 
 data Mode = View | Edit
 
+derive instance genericMode :: Generic Mode
 instance eqMode :: Eq Mode where
-  eq View View = true
-  eq Edit Edit = true
-  eq _ _ = false
-
+  eq = gEq
 
 type Article =
   { created :: Maybe Date
@@ -49,9 +48,7 @@ type Article =
   , revision :: Int
   }
 
-
 type Articles = M.Map Title Article
-
 
 type App =
   { articles :: Articles
@@ -101,7 +98,6 @@ user = lens _.user (_ { user = _ })
 
 username :: Lens _ _ _ _
 username = user <<< lens (\(User u) -> u) (\(User u) v -> User v)
-
 
 articles = lens _.articles (_ { articles = _ })
 title = lens (\{ title: (Title x) } -> x) (\a x -> a { title = (Title x) })
